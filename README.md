@@ -203,7 +203,8 @@ Windows:
 ```
 --add-binary '{path_to_library}/tls_client/dependencies/tls-client-64.dll;tls_client/dependencies'
 ```
-
-# Acknowledgements
+### ❤️ One final note
+Package is named after [Admiral Atticus Noble in Rebel Moon: Part One - A Child of Fire villain](https://www.youtube.com/watch?v=cO-GPaASWV0)
+### Acknowledgements
 Big shout out to [Bogdanfinn](https://github.com/bogdanfinn) for open sourcing his [tls-client](https://github.com/bogdanfinn/tls-client) in Golang.
 and FlorianREGAZ
