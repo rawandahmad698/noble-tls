@@ -1,7 +1,7 @@
 from typing import Union, Dict, Any
 import json
-from .cookies import cookiejar_from_dict  # Ensure this is the correct path to your module
-from noble_tls.utils.structures import CaseInsensitiveDict  # Ensure this is the correct path to your module
+from .cookies import cookiejar_from_dict
+from noble_tls.utils.structures import CaseInsensitiveDict
 from typing import Optional
 
 
@@ -20,10 +20,6 @@ class Response:
 
     def __enter__(self):
         return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        # Can add cleanup logic here if necessary.
-        pass
 
     def __repr__(self):
         return f"<Response [{self.status_code}]>"
