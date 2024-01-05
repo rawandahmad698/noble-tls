@@ -5,14 +5,14 @@ import glob
 import os
 
 data_files = []
-directories = glob.glob('pytls/dependencies/')
+directories = glob.glob('noble_tls/dependencies/')
 for directory in directories:
     files = glob.glob(directory+'*')
-    data_files.append(('pytls/dependencies', files))
+    data_files.append(('noble_tls/dependencies', files))
 
 about = {}
 here = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(here, "pytls", "__version__.py"), "r", "utf-8") as f:
+with open(os.path.join(here, "noble_tls", "__version__.py"), "r", "utf-8") as f:
     exec(f.read(), about)
 
 with open("README.md", "r", "utf-8") as f:

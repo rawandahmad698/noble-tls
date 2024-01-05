@@ -1,4 +1,8 @@
-import pytls
+import asyncio
+
+import noble_tls
+from noble_tls import Client
+
 
 # You can also use the following as `client_identifier`:
 # Chrome --> chrome_103, chrome_104, chrome_105, chrome_106, chrome_107, chrome_108, chrome109, Chrome110,
@@ -11,15 +15,23 @@ import pytls
 # Android --> okhttp4_android_7, okhttp4_android_8, okhttp4_android_9, okhttp4_android_10, okhttp4_android_11,
 #             okhttp4_android_12, okhttp4_android_13
 
-session = pytls.Session(
-    client_identifier="chrome112",
-    random_tls_extension_order=True
-)
 
-res = session.get(
-    "https://www.example.com/",
-    headers={
-        "key1": "value1",
-    },
-    proxy="http://user:password@host:port"
-)
+async def main():
+    await noble_tls.update_if_necessary()
+    session = noble_tls.Session(
+        client=Client.NIKE_IOS_MOBILE,
+    )
+
+    res = await session.get(
+        "https://bit.ly/3K5GY8J",
+    )
+    print("Status code:", res.status_code)
+    print("Headers:", res.text)
+
+    for history in res.history:
+        print(f">> From URL: {history.url}")
+
+    print(f">> Current URL: {res.url}")
+
+
+asyncio.run(main())
