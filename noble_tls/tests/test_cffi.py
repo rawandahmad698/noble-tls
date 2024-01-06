@@ -51,5 +51,3 @@ def test_initialize_library(mocker):
                  return_value=MagicMock())  # Mocking LoadLibrary to return a MagicMock object
     library = initialize_library()
     assert library is not None, "Library should be initialized successfully"
-
-# Add more tests to cover other edge cases, error handling, and behaviors.
