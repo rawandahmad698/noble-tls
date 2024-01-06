@@ -75,7 +75,7 @@ def initialize_library():
         if os.name == "darwin":
             print(">> If you're on macOS, you need to allow the library to be loaded in System Preferences > Security & Privacy > General.")
 
-    exit(1)
+        exit(1)
 
 
 library = initialize_library()
