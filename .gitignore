@@ -1,5 +1,6 @@
 # Proxies
 proxies.txt
+/noble_tls/dependencies
 # IntelliJ project files
 .idea
 *.iml

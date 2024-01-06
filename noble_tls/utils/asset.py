@@ -37,7 +37,7 @@ def generate_asset_name(
         'aarch64': 'arm64',
         'i386': 'x86',
         'i686': 'x86',
-        'x86': 'x86'  # Assuming 'x86' is also used as a possible machine() return value
+        'x86': 'x86',  # Assuming 'x86' is also used as a possible machine() return value
     }
 
     # Check if we have a corresponding architecture in the map
@@ -49,8 +49,13 @@ def generate_asset_name(
     elif system_os == 'windows':
         # Check pointer size to determine if the architecture is 64-bit or 32-bit
         file_extension = '-64.dll' if platform.architecture()[0] == '64bit' else '-32.dll'
-    else:  # Assuming Linux and other Unix-like for simplicity
+    elif system_os == 'linux':
         file_extension = '.so'
+        # Debian
+        if 'debian' in platform.version().lower():
+            system_os = 'debian'
+    else:
+        file_extension = '.so'  # Default to .so for other Unix-like systems
 
     # Handle special case for x86 architecture on non-Windows systems
     if system_os != 'windows' and 'x86' in architecture:
