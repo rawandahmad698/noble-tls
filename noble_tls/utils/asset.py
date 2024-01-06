@@ -58,8 +58,8 @@ def generate_asset_name(
         file_extension = '.so'  # Default to .so for other Unix-like systems
 
     # Handle special case for x86 architecture on non-Windows systems
-    if system_os != 'windows' and 'x86' in architecture:
-        asset_arch = 'armv7'
+    if system_os == 'darwin' and 'x86' in architecture:
+        asset_arch = 'amd64'
 
     return f"{custom_part}-{system_os}-{asset_arch}-v{version}{file_extension}"
 
