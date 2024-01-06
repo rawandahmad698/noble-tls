@@ -1,3 +1,6 @@
+env:
+  ACTIONS_STEP_DEBUG: true
+
 name: CI
 
 on:
@@ -30,6 +33,11 @@ jobs:
       - name: Run tests
         run: |
           pytest noble_tls/tests
+
+      - name: Debug Info
+        run: |
+          echo "github.ref: ${{ github.ref }}"
+          echo "GITHUB_EVENT_NAME: ${{ github.event_name }}"
 
   release:
     needs: build-and-test
