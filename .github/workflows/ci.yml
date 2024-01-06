@@ -28,7 +28,7 @@ jobs:
       # Run tests
       - name: Run tests
         run: |
-          pytest tests
+          pytest noble_tls/tests
 
   release:
     needs: build-and-test
