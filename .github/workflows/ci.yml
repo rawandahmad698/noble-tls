@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     tags:
-      - '*' # Push events to matching tags (e.g. v1.0, v20.15.10)
+      - 'v*.*.*'
 
 jobs:
   build-and-test:
