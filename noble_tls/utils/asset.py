@@ -37,7 +37,7 @@ def generate_asset_name(
         'aarch64': 'arm64',
         'i386': 'x86',
         'i686': 'x86',
-        'x86': 'x86',  # Assuming 'x86' is also used as a possible machine() return value
+        'x86': 'x86'
     }
 
     # Check if we have a corresponding architecture in the map
@@ -59,7 +59,7 @@ def generate_asset_name(
 
     # Handle special case for x86 architecture on non-Windows systems
     if system_os != 'windows' and 'x86' in architecture:
-        asset_arch = 'x86'
+        asset_arch = 'armv7'
 
     return f"{custom_part}-{system_os}-{asset_arch}-v{version}{file_extension}"
 
