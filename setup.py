@@ -1,14 +1,7 @@
 #!/usr/bin/env python
-from setuptools import setup, find_packages, Extension
+from setuptools import setup, find_packages
 from codecs import open
-import glob
 import os
-
-data_files = []
-directories = glob.glob('noble_tls/dependencies/')
-for directory in directories:
-    files = glob.glob(directory+'*')
-    data_files.append(('noble_tls/dependencies', files))
 
 about = {}
 here = os.path.abspath(os.path.dirname(__file__))
@@ -26,11 +19,7 @@ setup(
     license=about["__license__"],
     long_description=readme,
     long_description_content_type="text/markdown",
-    packages=find_packages(),
-    include_package_data=True,
-    package_data={
-        '': ['*'],
-    },
+    packages=find_packages(exclude=["tests"]),
     classifiers=[
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
