@@ -1,6 +1,7 @@
+import ctypes
 import os
 import platform
-
+import sys
 
 def root_dir():
     # Get the absolute path of the current file
@@ -12,6 +13,9 @@ def root_dir():
     # Navigate up one level to get the 'root_dir'
     root_dir = os.path.dirname(current_dir_path)
     return root_dir
+
+def get_system_platform():
+    return sys.platform
 
 
 def generate_asset_name(
@@ -28,38 +32,25 @@ def generate_asset_name(
     # Get the system's OS name and architecture
     system_os = platform.system().lower()
     architecture = platform.machine().lower()
+    sys_platform = get_system_platform()
 
-    # Common architecture names to the ones used in the assets
-    arch_map = {
-        'x86_64': 'amd64',
-        'amd64': 'amd64',
-        'arm64': 'arm64',
-        'aarch64': 'arm64',
-        'i386': 'x86',
-        'i686': 'x86',
-        'x86': 'x86'
-    }
-
-    # Check if we have a corresponding architecture in the map
-    asset_arch = arch_map.get(architecture, 'unknown')
-
-    # Determine file extension based on OS
-    if system_os == 'darwin':  # macOS
+    # Correct the platform checks and architecture determination
+    if sys_platform == 'darwin':
         file_extension = '.dylib'
-    elif system_os == 'windows':
-        # Check pointer size to determine if the architecture is 64-bit or 32-bit
-        file_extension = '-64.dll' if platform.architecture()[0] == '64bit' else '-32.dll'
-    elif system_os == 'linux':
-        file_extension = '.so'
-        # Debian
-        if 'debian' in platform.version().lower():
-            system_os = 'debian'
+        asset_arch = 'arm64' if architecture == "arm64" else 'amd64'
+    elif sys_platform in ('win32', 'cygwin'):
+        file_extension = '.dll'
+        asset_arch = '64' if 8 == ctypes.sizeof(ctypes.c_voidp) else '32'
     else:
-        file_extension = '.so'  # Default to .so for other Unix-like systems
+        # I don't possess a Linux machine to test this on, so I'm not sure if this is correct
+        file_extension = '.so'
 
-    # Handle special case for x86 architecture on non-Windows systems
-    if system_os == 'darwin' and 'x86' in architecture:
-        asset_arch = 'amd64'
+        if architecture == "aarch64":
+            asset_arch = 'arm64'
+        elif "x86" in architecture:
+            asset_arch = 'amd64'
+        else:
+            asset_arch = 'amd64'
 
     return f"{custom_part}-{system_os}-{asset_arch}-v{version}{file_extension}"
 

@@ -68,4 +68,4 @@ jobs:
         env:
           PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
         run: |
-          twine upload dist/* --skip-existing -u __token__ -p $PYPI_API_TOKEN
+          twine upload dist/* --skip-existing -u __token__ -p $PYPI_API_TOKEN --verbose
