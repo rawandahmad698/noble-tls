@@ -1,3 +1,6 @@
-pytest
 httpx
+pytest
+pytest-asyncio
+pytest-mock
+requests
 distro
