@@ -2,6 +2,7 @@ import ctypes
 import os
 import platform
 import sys
+import distro
 
 def root_dir():
     # Get the absolute path of the current file
@@ -17,6 +18,8 @@ def root_dir():
 def get_system_platform():
     return sys.platform
 
+def get_distro():
+    return distro.id()
 
 def generate_asset_name(
         custom_part: str = 'tls-client',
@@ -41,6 +44,7 @@ def generate_asset_name(
     elif sys_platform in ('win32', 'cygwin'):
         file_extension = '.dll'
         asset_arch = '64' if 8 == ctypes.sizeof(ctypes.c_voidp) else '32'
+
     else:
         # I don't possess a Linux machine to test this on, so I'm not sure if this is correct
         file_extension = '.so'
@@ -51,6 +55,11 @@ def generate_asset_name(
             asset_arch = 'amd64'
         else:
             asset_arch = 'amd64'
+
+        if system_os == 'linux':
+            distro_name = get_distro()
+            if distro_name.lower() == "ubuntu":
+                system_os = f"{system_os}-{distro_name}"
 
     return f"{custom_part}-{system_os}-{asset_arch}-v{version}{file_extension}"
 

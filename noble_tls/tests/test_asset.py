@@ -15,6 +15,14 @@ def test_generate_asset_name_linux_amd64(mocker):
     expected_asset_name = 'tls-client-linux-amd64-v1.7.2.so'
     assert generate_asset_name() == expected_asset_name
 
+def test_generate_asset_name_ubuntu_arm64(mocker):
+    mocker.patch('noble_tls.utils.asset.get_system_platform', return_value='ubuntu')
+    mocker.patch('noble_tls.utils.asset.get_distro', return_value='ubuntu')
+    mocker.patch('platform.machine', return_value='x86_64')
+    mocker.patch('platform.system', return_value='Linux')
+    expected_asset_name = "tls-client-linux-ubuntu-amd64-v1.7.2.so"
+    assert generate_asset_name() == expected_asset_name
+
 def test_generate_asset_name_windows_x86(mocker):
     mocker.patch('noble_tls.utils.asset.get_system_platform', return_value='win32')
     mocker.patch('platform.system', return_value='Windows')
