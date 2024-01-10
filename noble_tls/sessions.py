@@ -392,7 +392,6 @@ class Session:
                 request_payload["withRandomTLSExtensionOrder"] = self.random_tls_extension_order
 
             loop = asyncio.get_event_loop()
-
             # this is a pointer to the response
             response = await loop.run_in_executor(None, request, dumps(request_payload).encode('utf-8'))
 
@@ -420,6 +419,8 @@ class Session:
             current_response = build_response(response_object, response_cookie_jar)
             # check for redirect
             if allow_redirects:
+                print(">> [SESSION] Checking for redirect...")
+
                 if 'Location' in (headers := current_response.headers) and current_response.status_code in (
                     300, 301, 302, 303, 307, 308
                 ):
@@ -427,9 +428,12 @@ class Session:
                     url = headers['Location']
                 else:
                     break
+            else:
+                break
 
         # Assign the history to the final response
         current_response.history = history
+        print(">> [SESSION] Returning response")
         return current_response
 
     async def get(
