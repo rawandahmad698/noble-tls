@@ -20,7 +20,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     packages=find_packages(exclude=["tests"]),
-    requires=["httpx", "distro", "requests"],
+    install_requires=["httpx", "distro", "requests"],
     classifiers=[
         "Environment :: Web Environment",
         "Intended Audience :: Developers",

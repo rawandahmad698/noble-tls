@@ -419,8 +419,6 @@ class Session:
             current_response = build_response(response_object, response_cookie_jar)
             # check for redirect
             if allow_redirects:
-                print(">> [SESSION] Checking for redirect...")
-
                 if 'Location' in (headers := current_response.headers) and current_response.status_code in (
                     300, 301, 302, 303, 307, 308
                 ):
@@ -433,7 +431,6 @@ class Session:
 
         # Assign the history to the final response
         current_response.history = history
-        print(">> [SESSION] Returning response")
         return current_response
 
     async def get(
