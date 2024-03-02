@@ -3,6 +3,7 @@ import json
 from .cookies import cookiejar_from_dict
 from noble_tls.utils.structures import CaseInsensitiveDict
 from typing import Optional
+from requests.exceptions import HTTPError
 
 
 class Response:
@@ -27,6 +28,13 @@ class Response:
     def json(self, **kwargs) -> Union[Dict, list]:
         """Parses the text content of the response to JSON."""
         return json.loads(self.text, **kwargs)
+
+    def raise_for_status(self):
+        """Raises an HTTPError if the HTTP request returned an unsuccessful status code."""
+        if 400 <= self.status_code < 500:
+            raise HTTPError(f'Client Error: {self.status_code} for url: {self.url}')
+        elif 500 <= self.status_code < 600:
+            raise HTTPError(f'Server Error: {self.status_code} for url: {self.url}')
 
     @property
     def content(self) -> bytes:

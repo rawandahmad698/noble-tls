@@ -17,7 +17,6 @@ from .utils.identifiers import Client
 
 
 class Session:
-
     def __init__(
             self,
             client: Optional[Client] = None,
