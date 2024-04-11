@@ -85,7 +85,7 @@ async def download_if_necessary():
     if not asset_url or not version_num:
         raise TLSClientException(f"Version {version_num} does not have any assets.")
 
-    asset_name = generate_asset_name(custom_part=repo, version=version_num)
+    asset_name = generate_asset_name(custom_part=f"{repo}-xgo", version=version_num.replace("v", ""))
     # Check if asset name is in the list of assets in root dir/dependencies
     if os.path.exists(f'{root_directory}/dependencies/{asset_name}'):
         return

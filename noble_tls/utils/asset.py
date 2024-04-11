@@ -61,7 +61,7 @@ def generate_asset_name(
             if distro_name.lower() in {"ubuntu", "debian"}:
                 system_os = f"{system_os}-ubuntu"
 
-    return f"{custom_part}-{system_os}-{asset_arch}-v{version}{file_extension}"
+    return f"{custom_part}-{version}-{system_os}-{asset_arch}{file_extension}"
 
 
 if __name__ == "__main__":
