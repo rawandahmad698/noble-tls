@@ -22,7 +22,7 @@ def get_distro():
     return distro.id()
 
 def generate_asset_name(
-        custom_part: str = 'tls-client',
+        custom_part: str = 'tls-client-xgo',
         version: str = '1.7.2'
 ) -> str:
     """
