@@ -20,6 +20,7 @@ async def main():
     await noble_tls.update_if_necessary()
     session = noble_tls.Session(
         client=Client.NIKE_IOS_MOBILE,
+        debug=True,
     )
 
     res = await session.get(

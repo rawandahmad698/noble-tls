@@ -5,6 +5,11 @@ from unittest.mock import patch, MagicMock
 from ..sessions import Session
 from ..utils.structures import CaseInsensitiveDict
 
+import pytest
+from unittest.mock import MagicMock, patch
+from ..sessions import Session
+import asyncio
+
 
 @pytest.mark.asyncio
 async def test_session_initialization():
@@ -12,11 +17,6 @@ async def test_session_initialization():
     assert session.timeout_seconds == 30, "Default timeout should be 30 seconds"
     assert isinstance(session.headers, CaseInsensitiveDict), "Headers should be a CaseInsensitiveDict"
 
-
-import pytest
-from unittest.mock import MagicMock, patch
-from ..sessions import Session
-import asyncio
 
 @pytest.mark.asyncio
 async def test_session_execute_request(mocker):

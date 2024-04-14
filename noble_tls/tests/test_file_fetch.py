@@ -8,6 +8,7 @@ import pytest
 from unittest.mock import MagicMock, patch
 from ..updater.file_fetch import get_latest_release
 
+
 @pytest.mark.asyncio
 async def test_get_latest_release_success(mocker):
     # Mock the HTTP response from httpx.AsyncClient
@@ -24,6 +25,7 @@ async def test_get_latest_release_success(mocker):
 
     assert version_num == '1.0.0', "Version number should be parsed correctly"
     assert len(assets) > 0, "Assets list should not be empty"
+
 
 @pytest.mark.asyncio
 async def test_get_latest_release_failure(mocker):
@@ -50,9 +52,9 @@ async def test_download_if_necessary_no_download_needed(mocker):
     # Mock get_latest_release to return the current version
     mocker.patch('noble_tls.updater.file_fetch.get_latest_release',
                  return_value=('1.0.0',
-                               [{'name': 'tls-client-darwin-arm64-v1.7.2.dylib',
+                               [{'name': 'tls-client-darwin-arm64-1.7.2.dylib',
                                  'browser_download_url': 'https://google.com'}
-                               ]))
+                                ]))
 
     # Mock os.path.exists to simulate the asset already exists
     mocker.patch('os.path.exists', return_value=True)

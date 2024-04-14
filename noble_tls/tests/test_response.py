@@ -28,6 +28,7 @@ def test_response_content_consumed():
     with pytest.raises(RuntimeError):
         _ = response.content
 
+
 def test_response_json_parsing():
     """Test the JSON parsing method."""
     response = Response()

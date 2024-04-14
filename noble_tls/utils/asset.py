@@ -4,6 +4,7 @@ import platform
 import sys
 import distro
 
+
 def root_dir():
     # Get the absolute path of the current file
     current_file_path = os.path.abspath(__file__)
@@ -15,15 +16,18 @@ def root_dir():
     root_dir = os.path.dirname(current_dir_path)
     return root_dir
 
+
 def get_system_platform():
     return sys.platform
+
 
 def get_distro():
     return distro.id()
 
+
 def generate_asset_name(
         custom_part: str = 'tls-client',
-        version: str = '1.7.2'
+        version: str = '1.7.4'
 ) -> str:
     """
     Generates an asset name based on the current platform and architecture, including handling for x86 architectures.
@@ -61,12 +65,12 @@ def generate_asset_name(
             if distro_name.lower() in {"ubuntu", "debian"}:
                 system_os = f"{system_os}-ubuntu"
 
-    return f"{custom_part}-{system_os}-{asset_arch}-v{version}{file_extension}"
+    return f"{custom_part}-{system_os}-{asset_arch}-{version}{file_extension}"
 
 
 if __name__ == "__main__":
     # Example usage:
     custom_part = 'tls-client'
-    version = '1.7.2'
+    version = '1.7.4'
     asset_name = generate_asset_name(custom_part, version)
     print(f">> Asset name: {asset_name}")
