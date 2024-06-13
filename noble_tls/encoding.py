@@ -6,11 +6,11 @@ import msgspec
 class LibraryResponse(msgspec.Struct):
     id: str
     sessionId: str
-    cookies: Dict[str, str]
     target: str
     usedProtocol: str
     status: int = 0
     body: str = ""
+    cookies: Dict[str, str] = {}
     headers: Dict[str, List[str]] = {}
 
 
