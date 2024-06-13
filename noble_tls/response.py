@@ -4,7 +4,7 @@ from typing import Union, Dict
 
 from requests.exceptions import HTTPError
 
-from encoding import LibraryResponse
+from .encoding import LibraryResponse
 from noble_tls.utils.structures import CaseInsensitiveDict
 from .cookies import cookiejar_from_dict
 

@@ -4,7 +4,7 @@ import base64
 import urllib.parse
 from typing import Any, Optional, Union
 
-from encoding import lib_response_decoder, json_encoder
+from .encoding import lib_response_decoder, json_encoder
 from .__version__ import __version__
 from .c.cffi import request, free_memory
 from .cookies import cookiejar_from_dict, merge_cookies, extract_cookies_to_jar
