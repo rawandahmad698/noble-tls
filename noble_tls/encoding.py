@@ -10,7 +10,7 @@ class LibraryResponse(msgspec.Struct):
     usedProtocol: str
     status: int = 0
     body: str = ""
-    cookies: Dict[str, str] = {}
+    cookies: Dict[str, str] = None
     headers: Dict[str, List[str]] = {}
 
 
