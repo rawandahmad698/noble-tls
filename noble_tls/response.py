@@ -1,9 +1,12 @@
-from typing import Union, Dict, Any
 import json
-from .cookies import cookiejar_from_dict
-from noble_tls.utils.structures import CaseInsensitiveDict
 from typing import Optional
+from typing import Union, Dict
+
 from requests.exceptions import HTTPError
+
+from encoding import LibraryResponse
+from noble_tls.utils.structures import CaseInsensitiveDict
+from .cookies import cookiejar_from_dict
 
 
 class Response:
@@ -47,16 +50,16 @@ class Response:
         return self._content
 
 
-def build_response(res: Dict[str, Any], res_cookies) -> Response:
+def build_response(res: LibraryResponse, res_cookies) -> Response:
     """Builds and returns a Response object from given data."""
     response = Response()
-    response.url = res.get("target")  # Extract the target URL from the response data.
-    response.status_code = res.get("status", 0)  # Default to 0 if status is not provided.
-    response.text = res.get("body", "")  # Default to empty string if body is not provided.
+    response.url = res.target  # Extract the target URL from the response data.
+    response.status_code = res.status  # Default to 0 if status is not provided.
+    response.text = res.body  # Default to empty string if body is not provided.
 
     # Process headers, ensuring single values are not wrapped in a list.
     response_headers = {}
-    for key, value in res.get("headers", {}).items():
+    for key, value in res.headers.items():
         response_headers[key] = value[0] if len(value) == 1 else value
     response.headers = response_headers
 

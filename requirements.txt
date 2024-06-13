@@ -4,3 +4,4 @@ pytest-asyncio
 pytest-mock
 requests
 distro
+msgspec==0.18.6

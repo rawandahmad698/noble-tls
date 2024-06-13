@@ -1,19 +1,18 @@
 # Builtins
 import asyncio
-from typing import Any, Optional, Union
-from json import dumps, loads
-import urllib.parse
 import base64
-import ctypes
+import urllib.parse
+from typing import Any, Optional, Union
 
+from encoding import lib_response_decoder, json_encoder
+from .__version__ import __version__
 from .c.cffi import request, free_memory
 from .cookies import cookiejar_from_dict, merge_cookies, extract_cookies_to_jar
 from .exceptions.exceptions import TLSClientException
-from .utils.structures import CaseInsensitiveDict
-from .__version__ import __version__
 from .response import build_response
-from .utils.session_utils import random_session_id
 from .utils.identifiers import Client
+from .utils.session_utils import random_session_id
+from .utils.structures import CaseInsensitiveDict
 
 
 class Session:
@@ -294,7 +293,7 @@ class Session:
         # Data has priority. JSON is only used if data is None.
         if data is None and json is not None:
             if type(json) in [dict, list]:
-                json = dumps(json)
+                json = json_encoder.encode(json)
             request_body = json
             content_type = "application/json"
         elif data is not None and type(data) not in [str, bytes]:
@@ -392,34 +391,29 @@ class Session:
 
             loop = asyncio.get_event_loop()
             # this is a pointer to the response
-            response = await loop.run_in_executor(None, request, dumps(request_payload).encode('utf-8'))
-
-            # dereference the pointer to a byte array
-            response_bytes = ctypes.string_at(response)
-            # convert our byte array to a string (tls client returns json)
-            response_string = response_bytes.decode('utf-8')
-            # convert response string to json
-            response_object = loads(response_string)
+            response = await loop.run_in_executor(None, request, json_encoder.encode(request_payload))
+            # convert response bytes to json
+            response_object = lib_response_decoder.decode(response)
             # free the memory
-            await loop.run_in_executor(None, free_memory, response_object['id'].encode('utf-8'))
+            loop.run_in_executor(None, free_memory, response_object.id.encode('utf-8'))
 
             # --- Response -------------------------------------------------------------------------------------------------
             # Error handling
-            if response_object["status"] == 0:
-                raise TLSClientException(response_object["body"])
+            if response_object.status == 0:
+                raise TLSClientException(response_object.body)
             # Set response cookies
             response_cookie_jar = extract_cookies_to_jar(
                 request_url=url,
                 request_headers=headers,
                 cookie_jar=cookies,
-                response_headers=response_object["headers"]
+                response_headers=response_object.headers
             )
             # build response class
             current_response = build_response(response_object, response_cookie_jar)
             # check for redirect
             if allow_redirects:
                 if 'Location' in (headers := current_response.headers) and current_response.status_code in (
-                    300, 301, 302, 303, 307, 308
+                        300, 301, 302, 303, 307, 308
                 ):
                     history.append(current_response)
                     url = headers['Location']
