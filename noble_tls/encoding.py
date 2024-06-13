@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import msgspec
 
@@ -10,8 +10,8 @@ class LibraryResponse(msgspec.Struct):
     usedProtocol: str
     status: int = 0
     body: str = ""
-    cookies: Dict[str, str] = None
-    headers: Dict[str, List[str]] = {}
+    cookies: Optional[Dict[str, str]] = {}
+    headers: Optional[Dict[str, List[str]]] = {}
 
 
 json_encoder = msgspec.json.Encoder()
