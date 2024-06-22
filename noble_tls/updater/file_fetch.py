@@ -1,5 +1,6 @@
 import asyncio
 import os
+from functools import wraps
 from typing import Tuple
 
 from noble_tls.utils.asset import generate_asset_name
@@ -13,6 +14,27 @@ url = f'https://api.github.com/repos/{owner}/{repo}/releases/latest'
 root_directory = root_dir()
 
 
+def auto_retry(retries: int):
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            attempt = 0
+            while attempt <= retries:
+                try:
+                    return await func(*args, **kwargs)
+                except Exception as e:
+                    attempt += 1
+                    if attempt > retries:
+                        print(f">> Failed after {attempt} attempts with error: {e}")
+                        raise e
+                    await asyncio.sleep(0.1)
+
+        return wrapper
+
+    return decorator
+
+
+@auto_retry(retries=3)
 async def get_latest_release() -> Tuple[str, list]:
     """
     Fetches the latest release from the GitHub API.
@@ -21,7 +43,11 @@ async def get_latest_release() -> Tuple[str, list]:
     """
     # Make a GET request to the GitHub API
     async with httpx.AsyncClient() as client:
-        response = await client.get(url)
+        headers = {
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'noble-tls'
+        }
+        response = await client.get(url, headers=headers)
 
     # Check if the request was successful
     if response.status_code == 200:
