@@ -67,6 +67,18 @@ async def save_version_info(asset_name: str, version: str):
         f.write(f"{asset_name} {version}")
 
 
+def delete_version_info():
+    """
+    Delete everything inside dependencies/.version
+    """
+    try:
+        # Delete all files in dependencies
+        for file in os.listdir(f'{root_directory}/dependencies'):
+            os.remove(f'{root_directory}/dependencies/{file}')
+    except FileNotFoundError:
+        pass
+
+
 def read_version_info():
     """
     Read version info from a hidden .version file in root_dir/dependencies
