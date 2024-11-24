@@ -267,6 +267,14 @@ class Session:
         # loop
         self.loop = asyncio.get_event_loop()
 
+    @property
+    def timeout(self):
+        return self.timeout_seconds
+
+    @timeout.setter
+    def timeout(self, seconds):
+        self.timeout_seconds = seconds
+
     async def execute_request(
             self,
             method: str,
@@ -279,8 +287,15 @@ class Session:
             allow_redirects: Optional[bool] = True,
             insecure_skip_verify: Optional[bool] = False,
             timeout_seconds: Optional[int] = None,
+            timeout: Optional[int] = None,
             proxy: Optional[dict] = None  # Optional[dict[str, str]]
     ):
+
+        # --- Timeout --------------------------------------------------------------------------------------------------
+        # maximum time to wait for a response
+        timeout_seconds = timeout or timeout_seconds or self.timeout_seconds
+        del timeout  # deleting alias to stop further usage
+
         # --- History ------------------------------------------------------------------------------------------------------
         history = []  # Initialize an empty list to store the history of responses
 
@@ -345,10 +360,7 @@ class Session:
         else:
             proxy = ""
 
-        # --- Timeout --------------------------------------------------------------------------------------------------
-        # maximum time to wait
 
-        timeout_seconds = timeout_seconds or self.timeout_seconds
 
         while True:
             # --- Request --------------------------------------------------------------------------------------------------
