@@ -258,6 +258,8 @@ class Session:
         # force HTTP1
         self.force_http1 = force_http1
 
+        self.transportOptions = transportOptions
+
         # catch panics
         # avoid the tls client to print the whole stacktrace when a panic (critical go error) happens
         self.catch_panics = catch_panics
