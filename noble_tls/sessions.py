@@ -38,7 +38,8 @@ class Session:
             force_http1: Optional = False,
             catch_panics: Optional = False,
             debug: Optional = False,
-            transportOptions: Optional[dict] = None
+            transportOptions: Optional[dict] = None,
+            connectHeaders: Optional[dict] = None
     ) -> None:
         self.client_identifier = client.value if client else None
         self._session_id = random_session_id()
@@ -260,6 +261,8 @@ class Session:
 
         self.transportOptions = transportOptions
 
+        self.connectHeaders = connectHeaders
+
         # catch panics
         # avoid the tls client to print the whole stacktrace when a panic (critical go error) happens
         self.catch_panics = catch_panics
@@ -385,7 +388,8 @@ class Session:
                 "requestBody": base64.b64encode(request_body).decode() if is_byte_request else request_body,
                 "requestCookies": request_cookies,
                 "timeoutSeconds": timeout_seconds,
-                "transportOptions": self.transportOptions
+                "transportOptions": self.transportOptions,
+                "connectHeaders": self.connectHeaders
             }
             if self.client_identifier is None:
                 request_payload["customTlsClient"] = {
