@@ -519,7 +519,7 @@ class Session:
             "sessionId": self._session_id,
         }
         # should this be async?
-        destroy_session_response = destroy_session(json.dumps(destroy_session_payload).encode('utf-8'))
+        destroy_session_response = destroy_session(dumps(destroy_session_payload).encode('utf-8'))
 
         destroy_session_response_bytes = ctypes.string_at(destroy_session_response)
         destroy_session_response_string = destroy_session_response_bytes.decode('utf-8')
