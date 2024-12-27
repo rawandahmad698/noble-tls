@@ -523,6 +523,6 @@ class Session:
 
         destroy_session_response_bytes = ctypes.string_at(destroy_session_response)
         destroy_session_response_string = destroy_session_response_bytes.decode('utf-8')
-        destroy_session_response_object = json.loads(destroy_session_response_string)
+        destroy_session_response_object = loads(destroy_session_response_string)
 
         return destroy_session_response_object
