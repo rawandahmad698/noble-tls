@@ -432,7 +432,8 @@ class Session:
                 request_url=url,
                 request_headers=headers,
                 cookie_jar=cookies,
-                response_headers=response_object["headers"]
+                response_headers=response_object["headers"],
+                response_cookies=response_object.get("cookies", {})
             )
             # build response class
             current_response = build_response(response_object, response_cookie_jar)
