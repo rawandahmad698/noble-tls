@@ -294,7 +294,8 @@ class Session:
             insecure_skip_verify: Optional[bool] = False,
             timeout_seconds: Optional[int] = None,
             timeout: Optional[int] = None,
-            proxy: Optional[dict] = None  # Optional[dict[str, str]]
+            proxy: Optional[dict] = None,  # Optional[dict[str, str]]
+            is_byte_response: Optional[bool] = False
     ):
 
         # --- Timeout --------------------------------------------------------------------------------------------------
@@ -381,6 +382,7 @@ class Session:
                 "headerOrder": self.header_order,
                 "insecureSkipVerify": insecure_skip_verify,
                 "isByteRequest": is_byte_request,
+                "isByteResponse": is_byte_response,
                 "additionalDecode": self.additional_decode,
                 "proxyUrl": proxy,
                 "requestUrl": url,
