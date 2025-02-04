@@ -72,7 +72,7 @@ async def download_and_save_asset(
     async with httpx.AsyncClient(follow_redirects=True) as client:
         headers = {
             'Accept': 'application/octet-stream',
-            'User-Agent': 'Python, Noble-TLS',
+            'User-Agent': 'rawandahmad698',
             'Connection': 'keep-alive'
         }
         response = await client.get(asset_url, headers=headers)
