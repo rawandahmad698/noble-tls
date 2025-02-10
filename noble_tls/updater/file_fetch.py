@@ -12,6 +12,7 @@ owner = 'bogdanfinn'
 repo = 'tls-client'
 url = f'https://api.github.com/repos/{owner}/{repo}/releases/latest'
 root_directory = root_dir()
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
 
 def auto_retry(retries: int):
@@ -75,6 +76,10 @@ async def download_and_save_asset(
             'User-Agent': 'rawandahmad698',
             'Connection': 'keep-alive'
         }
+        if GITHUB_TOKEN:
+            headers["Authorization"] = f"token {GITHUB_TOKEN}"
+            print(">> Using GitHub token for authentication.")
+
         response = await client.get(asset_url, headers=headers)
         if response.status_code != 200:
             raise TLSClientException(f"Failed to download asset {asset_name}. Status code: {response.status_code}")
