@@ -19,6 +19,8 @@ class Client(Enum):
     CHROME_124 = "chrome_124"
     CHROME_131 = "chrome_131"
     CHROME_131_PSK = "chrome_131_PSK"
+    CHROME_133 = "chrome_133"
+    CHROME_133_PSK = "chrome_133_PSK"
     SAFARI_15_6_1 = "safari_15_6_1"
     SAFARI_16_0 = "safari_16_0"
     SAFARI_IPAD_15_6 = "safari_ipad_15_6"
