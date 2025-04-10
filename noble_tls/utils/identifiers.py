@@ -38,6 +38,7 @@ class Client(Enum):
     FIREFOX_117 = "firefox_117"
     FIREFOX_120 = "firefox_120"
     FIREFOX_132 = "firefox_132"
+    FIREFOX_135 = "firefox_135"
     OPERA_89 = "opera_89"
     OPERA_90 = "opera_90"
     OPERA_91 = "opera_91"
