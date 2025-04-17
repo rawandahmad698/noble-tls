@@ -58,7 +58,7 @@ def build_response(res: LibraryResponse, res_cookies) -> Response:
     response.text = res.body  # Default to empty string if body is not provided.
 
     # Process headers, ensuring single values are not wrapped in a list.
-    response_headers = {}
+    response_headers = CaseInsensitiveDict()
     for key, value in res.headers.items():
         response_headers[key] = value[0] if len(value) == 1 else value
     response.headers = response_headers

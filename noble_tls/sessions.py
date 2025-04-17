@@ -36,7 +36,9 @@ class Session:
             random_tls_extension_order: Optional = False,
             force_http1: Optional = False,
             catch_panics: Optional = False,
-            debug: Optional = False
+            debug: Optional = False,
+            transportOptions: Optional[dict] = None,
+            connectHeaders: Optional[dict] = None
     ) -> None:
         self.client_identifier = client.value if client else None
         self._session_id = random_session_id()
@@ -256,6 +258,10 @@ class Session:
         # force HTTP1
         self.force_http1 = force_http1
 
+        self.transportOptions = transportOptions
+
+        self.connectHeaders = connectHeaders
+
         # catch panics
         # avoid the tls client to print the whole stacktrace when a panic (critical go error) happens
         self.catch_panics = catch_panics
@@ -265,6 +271,14 @@ class Session:
 
         # loop
         self.loop = asyncio.get_event_loop()
+
+    @property
+    def timeout(self):
+        return self.timeout_seconds
+
+    @timeout.setter
+    def timeout(self, seconds):
+        self.timeout_seconds = seconds
 
     async def execute_request(
             self,
@@ -278,8 +292,16 @@ class Session:
             allow_redirects: Optional[bool] = True,
             insecure_skip_verify: Optional[bool] = False,
             timeout_seconds: Optional[int] = None,
-            proxy: Optional[dict] = None  # Optional[dict[str, str]]
+            timeout: Optional[int] = None,
+            proxy: Optional[dict] = None,  # Optional[dict[str, str]]
+            is_byte_response: Optional[bool] = False
     ):
+
+        # --- Timeout --------------------------------------------------------------------------------------------------
+        # maximum time to wait for a response
+        timeout_seconds = timeout or timeout_seconds or self.timeout_seconds
+        del timeout  # deleting alias to stop further usage
+
         # --- History ------------------------------------------------------------------------------------------------------
         history = []  # Initialize an empty list to store the history of responses
 
@@ -344,10 +366,7 @@ class Session:
         else:
             proxy = ""
 
-        # --- Timeout --------------------------------------------------------------------------------------------------
-        # maximum time to wait
 
-        timeout_seconds = timeout_seconds or self.timeout_seconds
 
         while True:
             # --- Request --------------------------------------------------------------------------------------------------
@@ -362,6 +381,7 @@ class Session:
                 "headerOrder": self.header_order,
                 "insecureSkipVerify": insecure_skip_verify,
                 "isByteRequest": is_byte_request,
+                "isByteResponse": is_byte_response,
                 "additionalDecode": self.additional_decode,
                 "proxyUrl": proxy,
                 "requestUrl": url,
@@ -369,6 +389,8 @@ class Session:
                 "requestBody": base64.b64encode(request_body).decode() if is_byte_request else request_body,
                 "requestCookies": request_cookies,
                 "timeoutSeconds": timeout_seconds,
+                "transportOptions": self.transportOptions,
+                "connectHeaders": self.connectHeaders
             }
             if self.client_identifier is None:
                 request_payload["customTlsClient"] = {

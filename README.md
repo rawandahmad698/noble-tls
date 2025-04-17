@@ -56,12 +56,19 @@ from noble_tls import Client
     CHROME_116_PSK_PQ = "chrome_116_PSK_PQ"
     CHROME_117 = "chrome_117"
     CHROME_120 = "chrome_120"
+    CHROME_124 = "chrome_124"
+    CHROME_131 = "chrome_131"
+    CHROME_131_PSK = "chrome_131_PSK"
+    CHROME_133 = "chrome_133"
+    CHROME_133_PSK = "chrome_133_PSK"
     SAFARI_15_6_1 = "safari_15_6_1"
     SAFARI_16_0 = "safari_16_0"
     SAFARI_IPAD_15_6 = "safari_ipad_15_6"
     SAFARI_IOS_15_5 = "safari_ios_15_5"
     SAFARI_IOS_15_6 = "safari_ios_15_6"
     SAFARI_IOS_16_0 = "safari_ios_16_0"
+    SAFARI_IOS_17_0 = "safari_ios_17_0"
+    SAFARI_IOS_18_0 = "safari_ios_18_0"
     FIREFOX_102 = "firefox_102"
     FIREFOX_104 = "firefox_104"
     FIREFOX_105 = "firefox_105"
@@ -70,6 +77,8 @@ from noble_tls import Client
     FIREFOX_110 = "firefox_110"
     FIREFOX_117 = "firefox_117"
     FIREFOX_120 = "firefox_120"
+    FIREFOX_132 = "firefox_132"
+    FIREFOX_135 = "firefox_135"
     OPERA_89 = "opera_89"
     OPERA_90 = "opera_90"
     OPERA_91 = "opera_91"
@@ -205,6 +214,7 @@ Windows:
 ```
 ### ❤️ One final note
 Package is named after [Admiral Atticus Noble in Rebel Moon: Part One - A Child of Fire villain](https://www.youtube.com/watch?v=cO-GPaASWV0)
+
 ### Acknowledgements
 Big shout out to [Bogdanfinn](https://github.com/bogdanfinn) for open sourcing his [tls-client](https://github.com/bogdanfinn/tls-client) in Golang.
 and FlorianREGAZ

@@ -1,5 +1,6 @@
 import asyncio
 import os
+from functools import wraps
 from typing import Tuple
 
 from noble_tls.utils.asset import generate_asset_name
@@ -11,8 +12,30 @@ owner = 'bogdanfinn'
 repo = 'tls-client'
 url = f'https://api.github.com/repos/{owner}/{repo}/releases/latest'
 root_directory = root_dir()
+GITHUB_TOKEN = os.getenv("GH_TOKEN")
 
 
+def auto_retry(retries: int):
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            attempt = 0
+            while attempt <= retries:
+                try:
+                    return await func(*args, **kwargs)
+                except Exception as e:
+                    attempt += 1
+                    if attempt > retries:
+                        print(f">> Failed after {attempt} attempts with error: {e}")
+                        raise e
+                    await asyncio.sleep(0.1)
+
+        return wrapper
+
+    return decorator
+
+
+@auto_retry(retries=3)
 async def get_latest_release() -> Tuple[str, list]:
     """
     Fetches the latest release from the GitHub API.
@@ -21,7 +44,11 @@ async def get_latest_release() -> Tuple[str, list]:
     """
     # Make a GET request to the GitHub API
     async with httpx.AsyncClient() as client:
-        response = await client.get(url)
+        headers = {
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'noble-tls'
+        }
+        response = await client.get(url, headers=headers)
 
     # Check if the request was successful
     if response.status_code == 200:
@@ -46,8 +73,13 @@ async def download_and_save_asset(
     async with httpx.AsyncClient(follow_redirects=True) as client:
         headers = {
             'Accept': 'application/octet-stream',
-            'User-Agent': 'noble-tls'
+            'User-Agent': 'rawandahmad698',
+            'Connection': 'keep-alive'
         }
+        if GITHUB_TOKEN:
+            headers["Authorization"] = f"token {GITHUB_TOKEN}"
+            print(">> Using GitHub token for authentication.")
+
         response = await client.get(asset_url, headers=headers)
         if response.status_code != 200:
             raise TLSClientException(f"Failed to download asset {asset_name}. Status code: {response.status_code}")
@@ -65,6 +97,18 @@ async def save_version_info(asset_name: str, version: str):
     """
     with open(f'{root_directory}/dependencies/.version', 'w') as f:
         f.write(f"{asset_name} {version}")
+
+
+def delete_version_info():
+    """
+    Delete everything inside dependencies/.version
+    """
+    try:
+        # Delete all files in dependencies
+        for file in os.listdir(f'{root_directory}/dependencies'):
+            os.remove(f'{root_directory}/dependencies/{file}')
+    except FileNotFoundError:
+        pass
 
 
 def read_version_info():
