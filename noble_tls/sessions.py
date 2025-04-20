@@ -34,10 +34,10 @@ class Session:
             priority_frames: Optional[list] = None,
             header_order: Optional[list] = None,  # Optional[list[str]]
             header_priority: Optional[dict] = None,  # Optional[list[str]]
-            random_tls_extension_order: Optional = False,
-            force_http1: Optional = False,
-            catch_panics: Optional = False,
-            debug: Optional = False,
+            random_tls_extension_order: bool = False,
+            force_http1: bool = False,
+            catch_panics: bool = False,
+            debug: bool = False,
             transportOptions: Optional[dict] = None,
             connectHeaders: Optional[dict] = None
     ) -> None:
@@ -290,12 +290,13 @@ class Session:
             headers: Optional[dict] = None,  # Optional[dict[str, str]]
             cookies: Optional[dict] = None,  # Optional[dict[str, str]]
             json: Optional[dict] = None,  # Optional[dict]
-            allow_redirects: Optional[bool] = True,
-            insecure_skip_verify: Optional[bool] = False,
+            allow_redirects: bool = True,
+            insecure_skip_verify: bool = False,
             timeout_seconds: Optional[int] = None,
             timeout: Optional[int] = None,
             proxy: Optional[dict] = None,  # Optional[dict[str, str]]
-            is_byte_response: Optional[bool] = False
+            is_rotating_proxy: bool = False,
+            is_byte_response: bool = False
     ):
 
         # --- Timeout --------------------------------------------------------------------------------------------------
@@ -384,6 +385,7 @@ class Session:
                 "isByteRequest": is_byte_request,
                 "isByteResponse": is_byte_response,
                 "additionalDecode": self.additional_decode,
+                "isRotatingProxy": is_rotating_proxy,
                 "proxyUrl": proxy,
                 "requestUrl": url,
                 "requestMethod": method,
