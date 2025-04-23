@@ -443,9 +443,10 @@ def extract_cookies_to_jar(
         request_url: str,
         request_headers: CaseInsensitiveDict,
         cookie_jar: RequestsCookieJar,
-        response_headers: dict
+        response_headers: dict,
+        response_cookies: dict = {}
     ) -> RequestsCookieJar:
-    response_cookie_jar = cookiejar_from_dict({})
+    response_cookie_jar = cookiejar_from_dict(response_cookies)
 
     req = MockRequest(request_url, request_headers)
     # mimic HTTPMessage
