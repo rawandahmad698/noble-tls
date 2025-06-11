@@ -69,6 +69,7 @@ from noble_tls import Client
     SAFARI_IOS_16_0 = "safari_ios_16_0"
     SAFARI_IOS_17_0 = "safari_ios_17_0"
     SAFARI_IOS_18_0 = "safari_ios_18_0"
+    SAFARI_IOS_18_5 = "safari_ios_18_5"
     FIREFOX_102 = "firefox_102"
     FIREFOX_104 = "firefox_104"
     FIREFOX_105 = "firefox_105"
