@@ -7,7 +7,7 @@ Now async, providing many more features and auto updating the JA3 fingerprints.
 
 # Installation
 ```
-pip install noble-tls
+pip install omar6995-noble-tls
 ```
 
 ### Features

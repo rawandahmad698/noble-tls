@@ -295,7 +295,8 @@ class Session:
             timeout_seconds: Optional[int] = None,
             timeout: Optional[int] = None,
             proxy: Optional[dict] = None,  # Optional[dict[str, str]]
-            is_byte_response: Optional[bool] = False
+            is_byte_response: Optional[bool] = False,
+            is_rotating_proxy: Optional[bool] = False
     ):
 
         # --- Timeout --------------------------------------------------------------------------------------------------
@@ -385,6 +386,7 @@ class Session:
                 "isByteResponse": is_byte_response,
                 "additionalDecode": self.additional_decode,
                 "proxyUrl": proxy,
+                "isRotatingProxy": is_rotating_proxy,
                 "requestUrl": url,
                 "requestMethod": method,
                 "requestBody": base64.b64encode(request_body).decode() if is_byte_request else request_body,
