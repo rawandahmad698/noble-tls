@@ -30,6 +30,16 @@ pip install noble-tls
 - [x] `requests`'s `allow_redirects` support
 - [x] much more...
 
+<a href="https://hypersolutions.co/?utm_source=github&utm_medium=readme&utm_campaign=noble-tls" target="_blank"><img src="https://raw.githubusercontent.com/rawandahmad698/noble-tls/master/.github/assets/hypersolutions.jpg" height="47" width="149"></a>
+
+TLS fingerprinting alone isn't enough for modern bot protection. **[Hyper Solutions](https://hypersolutions.co?utm_source=github&utm_medium=readme&utm_campaign=noble-tls)** provides the missing piece - API endpoints that generate valid antibot tokens for:
+
+**Akamai** • **DataDome** • **Kasada** • **Incapsula**
+
+No browser automation. Just simple API calls that return the exact cookies and headers these systems require.
+
+🚀 **[Get Your API Key](https://hypersolutions.co?utm_source=github&utm_medium=readme&utm_campaign=noble-tls)** | 📖 **[Docs](https://docs.justhyped.dev)** | 💬 **[Discord](https://discord.gg/akamai)**
+
 # Examples
 The syntax is inspired by [requests](https://github.com/psf/requests), so its very similar and there are only very few things that are different.
 
