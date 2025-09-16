@@ -30,7 +30,8 @@ pip install noble-tls
 - [x] `requests`'s `allow_redirects` support
 - [x] much more...
 
-<a href="https://hypersolutions.co/?utm_source=github&utm_medium=readme&utm_campaign=noble-tls" target="_blank"><img src="https://raw.githubusercontent.com/rawandahmad698/noble-tls/master/.github/assets/hypersolutions.jpg" height="47" width="149"></a>
+## :shield: Need Antibot Bypass?
+<a href="https://hypersolutions.co/?utm_source=github&utm_medium=readme&utm_campaign=noble-tls" target="_blank"><img src="https://github.com/rawandahmad698/noble-tls/blob/master/.github/assets/hypersolutions.jpg?raw=true" height="47" width="149"></a>
 
 TLS fingerprinting alone isn't enough for modern bot protection. **[Hyper Solutions](https://hypersolutions.co?utm_source=github&utm_medium=readme&utm_campaign=noble-tls)** provides the missing piece - API endpoints that generate valid antibot tokens for:
 
