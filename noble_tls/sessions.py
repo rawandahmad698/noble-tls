@@ -368,8 +368,6 @@ class Session:
         else:
             proxy = ""
 
-
-
         while True:
             # --- Request --------------------------------------------------------------------------------------------------
             is_byte_request = isinstance(request_body, (bytes, bytearray))
@@ -443,7 +441,7 @@ class Session:
             # check for redirect
             if allow_redirects:
                 if 'Location' in (headers := current_response.headers) and current_response.status_code in (
-                    300, 301, 302, 303, 307, 308
+                        300, 301, 302, 303, 307, 308
                 ):
                     history.append(current_response)
                     url = headers['Location']
