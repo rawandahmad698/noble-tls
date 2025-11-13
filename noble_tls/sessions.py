@@ -325,9 +325,6 @@ class Session:
         else:
             request_body = data
             content_type = None
-        # set content type if it isn't set
-        if content_type is not None and "content-type" not in self.headers:
-            self.headers["Content-Type"] = content_type
 
         # --- Headers --------------------------------------------------------------------------------------------------
         if self.headers is None:
@@ -344,6 +341,10 @@ class Session:
                 del merged_headers[key]
 
             headers = merged_headers
+
+        # set content type if it isn't set
+        if content_type is not None and "content-type" not in headers:
+            headers["Content-Type"] = content_type
 
         # --- Cookies --------------------------------------------------------------------------------------------------
         cookies = cookies or {}
@@ -366,8 +367,6 @@ class Session:
             proxy = proxy
         else:
             proxy = ""
-
-
 
         while True:
             # --- Request --------------------------------------------------------------------------------------------------
@@ -442,7 +441,7 @@ class Session:
             # check for redirect
             if allow_redirects:
                 if 'Location' in (headers := current_response.headers) and current_response.status_code in (
-                    300, 301, 302, 303, 307, 308
+                        300, 301, 302, 303, 307, 308
                 ):
                     history.append(current_response)
                     url = headers['Location']
