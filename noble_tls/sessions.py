@@ -352,9 +352,15 @@ class Session:
         # turn cookie jar into dict
         # in the cookie value the " gets removed, because the fhttp library in golang doesn't accept the character
         request_cookies = [
-            {'domain': c.domain, 'expires': c.expires, 'name': c.name, 'path': c.path,
-             'value': c.value.replace('"', "")}
+            {
+                'domain': getattr(c, "domain", ""),
+                'expires': getattr(c, "expires", ""),
+                'name': getattr(c, "name", ""),
+                'path': getattr(c, "path", ""),
+                'value': (getattr(c, "value", "") or "").replace('"', ""),
+            }
             for c in cookies
+            if c is not None
         ]
 
         # --- Proxy ----------------------------------------------------------------------------------------------------
