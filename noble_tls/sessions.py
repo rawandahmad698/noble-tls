@@ -6,7 +6,7 @@ import urllib.parse
 import base64
 import ctypes
 
-from .c.cffi import request, free_memory
+from .c.cffi import request, free_memory, destroy_session
 from .cookies import cookiejar_from_dict, merge_cookies, extract_cookies_to_jar
 from .exceptions.exceptions import TLSClientException
 from .utils.structures import CaseInsensitiveDict
@@ -435,7 +435,8 @@ class Session:
                 request_url=url,
                 request_headers=headers,
                 cookie_jar=cookies,
-                response_headers=response_object["headers"]
+                response_headers=response_object["headers"],
+                response_cookies=response_object.get("cookies", {})
             )
             # build response class
             current_response = build_response(response_object, response_cookie_jar)
@@ -516,3 +517,16 @@ class Session:
     ):
         """Sends a DELETE request"""
         return await self.execute_request(method="DELETE", url=url, **kwargs)
+
+    def destroy_session(self):
+        destroy_session_payload = {
+            "sessionId": self._session_id,
+        }
+        # should this be async?
+        destroy_session_response = destroy_session(dumps(destroy_session_payload).encode('utf-8'))
+
+        destroy_session_response_bytes = ctypes.string_at(destroy_session_response)
+        destroy_session_response_string = destroy_session_response_bytes.decode('utf-8')
+        destroy_session_response_object = loads(destroy_session_response_string)
+
+        return destroy_session_response_object

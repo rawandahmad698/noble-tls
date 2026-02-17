@@ -81,10 +81,27 @@ def initialize_library():
 library = initialize_library()
 
 # Define the request function from the shared package
+# https://github.com/bogdanfinn/tls-client/blob/master/cffi_dist/main.go
+
 request = library.request
 request.argtypes = [ctypes.c_char_p]
 request.restype = ctypes.c_char_p
 
-free_memory = library.freeMemory
+# There are an option to move cookies management to shared lib side
+get_cookies_from_session = library.getCookiesFromSession
+get_cookies_from_session.argtypes = [ctypes.c_char_p]
+get_cookies_from_session.restype = ctypes.c_char_p
+
+add_cookies_to_session = library.addCookiesToSession
+add_cookies_to_session.argtypes = [ctypes.c_char_p]
+add_cookies_to_session.restype = ctypes.c_char_p
+
+free_memory = library.freeMemory # free memory for response
 free_memory.argtypes = [ctypes.c_char_p]
-free_memory.restype = ctypes.c_char_p
+
+destroy_session = library.destroySession
+destroy_session.argtypes = [ctypes.c_char_p]
+destroy_session.restype = ctypes.c_char_p
+
+destroy_all = library.destroyAll # destroy sessions
+destroy_all.restype = ctypes.c_char_p
