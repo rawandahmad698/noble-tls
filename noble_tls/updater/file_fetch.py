@@ -12,7 +12,7 @@ owner = 'bogdanfinn'
 repo = 'tls-client'
 url = f'https://api.github.com/repos/{owner}/{repo}/releases/latest'
 root_directory = root_dir()
-GITHUB_TOKEN = os.getenv("GH_TOKEN")
+GITHUB_TOKEN = os.getenv("GH_TOKEN") or os.getenv("GITHUB_TOKEN")
 
 
 def auto_retry(retries: int):
@@ -48,6 +48,8 @@ async def get_latest_release() -> Tuple[str, list]:
             'Accept': 'application/vnd.github.v3+json',
             'User-Agent': 'noble-tls'
         }
+        if GITHUB_TOKEN:
+            headers['Authorization'] = f'token {GITHUB_TOKEN}'
         response = await client.get(url, headers=headers)
 
     # Check if the request was successful
