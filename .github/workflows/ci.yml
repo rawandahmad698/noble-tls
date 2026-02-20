@@ -35,10 +35,12 @@ jobs:
             ASSET_ARCH="amd64"
           fi
           ASSET_NAME="tls-client-darwin-${ASSET_ARCH}-${VERSION}.dylib"
-          mkdir -p noble_tls/dependencies
-          gh release download "v${VERSION}" --repo bogdanfinn/tls-client --pattern "${ASSET_NAME}" --dir noble_tls/dependencies
-          echo "${ASSET_NAME} ${VERSION}" > noble_tls/dependencies/.version
-          echo ">> Downloaded ${ASSET_NAME}"
+          DEP_DIR=$(python -c "from noble_tls.utils.asset import root_dir; print(root_dir() + '/dependencies')")
+          mkdir -p "$DEP_DIR"
+          gh release download "v${VERSION}" --repo bogdanfinn/tls-client --pattern "${ASSET_NAME}" --dir "$DEP_DIR"
+          echo "${ASSET_NAME} ${VERSION}" > "$DEP_DIR/.version"
+          echo ">> Downloaded ${ASSET_NAME} to ${DEP_DIR}"
+          ls -la "$DEP_DIR"
 
       - name: Run tests
         run: |
