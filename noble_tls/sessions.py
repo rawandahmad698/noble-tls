@@ -224,13 +224,10 @@ class Session:
             request_body = data
             content_type = None
 
-        if content_type is not None and "content-type" not in self.headers:
-            self.headers["Content-Type"] = content_type
-
         if self.headers is None:
             headers = CaseInsensitiveDict(headers)
         elif headers is None:
-            headers = self.headers
+            headers = self.headers.copy()
         else:
             merged_headers = CaseInsensitiveDict(self.headers)
             merged_headers.update(headers)
@@ -238,6 +235,9 @@ class Session:
             for key in none_keys:
                 del merged_headers[key]
             headers = merged_headers
+
+        if content_type is not None and "content-type" not in headers:
+            headers["Content-Type"] = content_type
 
         cookies = cookies or {}
         cookies = merge_cookies(self.cookies, cookies)
