@@ -21,7 +21,7 @@ from .utils.identifiers import Client
 class Session:
     def __init__(
             self,
-            client: Optional[Client] = None,
+            client: Optional[Client] = Client.CHROME_146_PSK,
             ja3_string: Optional[str] = None,
             h2_settings: Optional[dict] = None,
             h2_settings_order: Optional[list] = None,
@@ -36,7 +36,7 @@ class Session:
             priority_frames: Optional[list] = None,
             header_order: Optional[list] = None,
             header_priority: Optional[dict] = None,
-            random_tls_extension_order: Optional = False,
+            random_tls_extension_order: Optional = True,
             force_http1: Optional = False,
             catch_panics: Optional = False,
             debug: Optional = False,
